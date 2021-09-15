@@ -68,7 +68,7 @@ if ($_SESSION['login'] != "true") {
     <?php
     include "../resource/nav.php";
     ?>
-    <div class="bigBox" style=" ">
+    <div class="bigBox" >
         <h1 style="text-align: center;">ทุนขาดแคลนทุนทรัพย์</h1><br>
         <hr>
         <div class="" style="font-size: xx-large; margin-left: 50px ;display: inline-block; display: table-row;
