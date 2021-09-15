@@ -132,7 +132,7 @@ if ($_SESSION['login'] != "true") {
     <div class="bigBox" style="height: fit-content !important;">
         <br>
 
-        <h1 style="text-align: center;">หน้ากรอกการสมัครทุนขาดแตลน</h1> <br>
+        <h1 style="text-align: center;">หน้ากรอกการสมัครทุนฉุกเฉิน</h1> <br>
         <hr>
         <form>
             <div class="row">

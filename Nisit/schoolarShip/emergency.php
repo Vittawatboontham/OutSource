@@ -6,6 +6,7 @@ if ($_SESSION['login'] != "true") {
     header("Location: http://localhost/intern/nisit/loginNisit.php");
     session_destroy();
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -166,8 +167,34 @@ if ($_SESSION['login'] != "true") {
             </div>
         </div>
 
-        <button class="btnleft"><a href="http:\\localhost\Intern\Nisit\schoolarShip\tunasupForm.php">สมัคร</a></button>
-        <button class="btnright">อัปโหลดเอกสาร</button>
+        <button class="btnleft"><a href="http:\\localhost\Intern\Nisit\schoolarShip\emergencyForm.php">สมัคร</a></button>
+        <form class="btnright" name="form1" method="post" action="<?php  echo $_SERVER['PHP_SELF']; ?>" enctype="multipart/form-data">
+            <p>uploadFile</p>
+            <input type="file" name="filUpload[]" id="filUpload" multiple="multiple">
+            <input name="btnSubmit" type="submit" value="Submit">
+        </form>
+        <?php
+        if (isset($_FILES["filUpload"])) {
+            $count = 0;
+            foreach ($_FILES['filUpload']['tmp_name'] as $key => $val) {
+               
+                $file_name = date("Ymd").'_'.$_SESSION['user'].'_'.$_SESSION['name'].'_ทุนนิสิตช่วยงาน'.$count.'_'.date("H_i_s");
+                $file_size = $_FILES['filUpload']['size'][$key];
+                $file_tmp = $_FILES['filUpload']['tmp_name'][$key];
+                $file_type = $_FILES['filUpload']['type'][$key];
+                move_uploaded_file($file_tmp, "../../uploadFile/" . $file_name);
+                $count++;
+            }
+            echo('upload Success');
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $_SESSION['postdata'] = $_POST;
+                unset($_POST);
+                header("Location: ".$_SERVER['PHP_SELF']);
+                exit;
+            }
+        }
+        ?>
+        <br><br><br><br><br>
     </div>
 </body>
 

@@ -1,5 +1,13 @@
 <?php
-session_start();
+
+if (!isset($_SESSION)) {
+    session_start();
+}
+
+
+?>
+<?php
+// session_start();
 ob_start();
 if ($_SESSION['login'] != "true") {
     header("HTTP/1.1 401 Unauthorized");
@@ -18,18 +26,20 @@ if ($_SESSION['login'] != "true") {
     <title>Document</title>
     <style>
         .btnleft {
+            margin-top: 50px;
             width: 200px;
             height: 50px;
             font-size: x-large;
-            margin-left: 20%;
+            margin-left: 10%;
         }
 
         .btnright {
-            width: 200px;
-            height: 50px;
+            margin-top: 50px;
+            width: 300px;
+            /* height: 50px; */
             font-size: x-large;
             float: right;
-            margin-right: 20%;
+            margin-right: 10%;
         }
 
         h1 {
@@ -68,11 +78,10 @@ if ($_SESSION['login'] != "true") {
     <?php
     include "../resource/nav.php";
     ?>
-    <div class="bigBox" >
+    <div class="bigBox">
         <h1 style="text-align: center;">ทุนขาดแคลนทุนทรัพย์</h1><br>
         <hr>
-        <div class="" style="font-size: xx-large; margin-left: 50px ;display: inline-block; display: table-row;
-">
+        <div class="" style="font-size: xx-large; margin-left: 50px ;display: inline-block; display: table-row;">
             <br>
             <!-- <a class="active" href="#home">รายละเอียดทุน</a> <br><br>
             <a href="#news">คุณสมบัติผู้สมัคร</a> <br><br>
@@ -81,7 +90,7 @@ if ($_SESSION['login'] != "true") {
             <a href="#news">ช่วงเวลา</a> <br><br><br><br> -->
             <!-- <div style="display: inline-block"> -->
             <div class="">
-                
+
 
                 <!-- <h1>ทุนขาดแคลนทุนทรัพย์</h1> -->
                 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;คณะวิทยาศาสตร์ ศรีราชา ได้ตระหนักถึงความสำคัญในการพัฒนาศักยภาพและเสริมสร้างประสบการณ์การทำงานของนิสิตตามแนวทางการพัฒนาคุณภาพบัณทิตของคณะ วิทยาศาสตร์ศรีราชา โดยความเห็นชอบของคณะกรรมการกองทุนคณะ วิทยาศาสตร์ ศรีราชา มีจำนวนเงินทุน 12,000 บาท
@@ -129,9 +138,47 @@ if ($_SESSION['login'] != "true") {
                 <p>สิงหาคม - มีนาคม ของทุกปี</p><br>
             </div>
         </div>
-
+        <hr>
         <button class="btnleft"><a href="http:\\localhost\Intern\Nisit\schoolarShip\tunasupForm.php">สมัคร</a></button>
-        <button class="btnright">อัปโหลดเอกสาร</button>
+        <!-- <button class="btnright">อัปโหลดเอกสาร</button> -->
+
+        <!-- <div class="btnright">
+            <h2>อัปโหลดเอกสาร</h2>
+            <form method='post' action='' enctype='multipart/form-data'>
+                <input type="file" name="file[]" id="file" multiple>
+                <input type='submit' name='submit' value='Upload Selected File'>
+            </form>
+
+        </div> -->
+        <form class="btnright" name="form1" method="post" action="<?php  echo $_SERVER['PHP_SELF']; ?>" enctype="multipart/form-data">
+            <p>uploadFile</p>
+            <input type="file" name="filUpload[]" id="filUpload" multiple="multiple">
+            <input name="btnSubmit" type="submit" value="Submit">
+        </form>
+        <?php
+        if (isset($_FILES["filUpload"])) {
+            $count = 0;
+            foreach ($_FILES['filUpload']['tmp_name'] as $key => $val) {
+               
+                $file_name = date("Ymd").'_'.$_SESSION['user'].'_'.$_SESSION['name'].'_ทุนขาดแคลนทุนทรัพย์'.$count.'_'.date("H_i_s");
+                $file_size = $_FILES['filUpload']['size'][$key];
+                $file_tmp = $_FILES['filUpload']['tmp_name'][$key];
+                $file_type = $_FILES['filUpload']['type'][$key];
+                move_uploaded_file($file_tmp, "../../uploadFile/" . $file_name);
+                $count++;
+            }
+            echo('upload Success');
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $_SESSION['postdata'] = $_POST;
+                unset($_POST);
+                header("Location: ".$_SERVER['PHP_SELF']);
+                exit;
+            }
+        }
+        ?>
+        <br><br><br><br><br>
+
+
     </div>
 </body>
 
