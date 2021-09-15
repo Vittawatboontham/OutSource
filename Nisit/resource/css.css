@@ -68,6 +68,8 @@ body, html {
 }
 
 .bigBox {
+
+    display: table;
     align-content: center;
     width: 70%;
     height: 100%;
